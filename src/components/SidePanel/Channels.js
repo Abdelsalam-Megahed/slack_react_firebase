@@ -12,6 +12,18 @@ class Channels extends React.Component {
     modal: false
   };
 
+  componentDidMount() {
+      this.addListeners();
+  }
+
+  addListeners = () => {
+      let lodadedChannels = [];
+      this.state.channelRef.on('child_added', snap => {
+          lodadedChannels.push(snap.val());
+           this.setState({ channels: lodadedChannels});
+        })
+  }
+
   handleSubmit = event => {
     event.preventDefault();
 
@@ -45,6 +57,20 @@ class Channels extends React.Component {
         })
   }
 
+  displayChannels= (channels) => (
+    channels.length > 0 && channels.map(channel => (
+        <Menu.Item
+        key = {channel.id}
+        onClick={() => console.log(channel)}
+        >
+            # {channel.name}
+        </Menu.Item>
+    ))
+
+  )
+
+  
+
   FormValid = ({channelName, channelDetails}) => channelName && channelDetails;
 
   handleChange = event => {
@@ -68,6 +94,7 @@ class Channels extends React.Component {
             ({channels.length}) <Icon name="add" onClick={this.openModal} />
           </Menu.Item>
           {/* Channels */}
+          {this.displayChannels(channels)}
         </Menu.Menu>
 
         {/* Add Channel Modal */}
