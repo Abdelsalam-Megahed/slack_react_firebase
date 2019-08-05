@@ -1,15 +1,51 @@
 import React from "react";
 import { Menu, Icon, Modal, Form, Input, Button } from "semantic-ui-react";
+import firebase from '../../firebase';
 
 class Channels extends React.Component {
   state = {
+    user: this.props.currentUser,
     channels: [],
     channelName: "",
     channelDetails: "",
+    channelRef: firebase.database().ref('channels'),
     modal: false
   };
 
- 
+  handleSubmit = event => {
+    event.preventDefault();
+
+    if(this.FormValid(this.state)){
+        this.addChannel();
+    }
+  };
+
+  addChannel = () => {
+    const {channelRef, channelName, channelDetails, user} = this.state;
+
+    const key = channelRef.push().key;
+
+    const newChannel = {
+        id: key,
+        name: channelName,
+        details: channelDetails,
+        createdBy: {
+            name: user.displayName,
+            // avatar: user.photoUrl
+        }
+    };
+    channelRef
+        .child(key)
+        .update(newChannel)
+        .then(() => {
+            this.setState({ channelName: '', channelDetails: ''});
+            this.closeModal();
+            console.log("Channel is added");
+            
+        })
+  }
+
+  FormValid = ({channelName, channelDetails}) => channelName && channelDetails;
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -38,7 +74,7 @@ class Channels extends React.Component {
         <Modal basic open={modal} onClose={this.closeModal}>
           <Modal.Header>Add a Channel</Modal.Header>
           <Modal.Content>
-            <Form>
+            <Form onSubmit={this.handleSubmit}>
               <Form.Field>
                 <Input
                   fluid
@@ -60,17 +96,19 @@ class Channels extends React.Component {
           </Modal.Content>
 
           <Modal.Actions>
-            <Button color="green" inverted>
-              <Icon name="checkmark" /> Add
+            <Button color="green" inverted onClick={this.handleSubmit}>
+              <Icon name="checkmark" />
+               Add
             </Button>
             <Button color="red" inverted onClick={this.closeModal}>
-              <Icon name="remove" /> Cancel
+              <Icon name="remove" /> 
+              Cancel
             </Button>
           </Modal.Actions>
         </Modal>
       </React.Fragment>
     );
   }
-}
+}  
 
 export default Channels;
