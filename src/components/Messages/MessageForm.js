@@ -57,7 +57,7 @@ class MessageForm extends React.Component {
   
 
     render() { 
-        const {errors} = this.state;
+        const {errors, message, loading} = this.state;
        
         return ( 
                 <Segment className="message__form">
@@ -71,6 +71,7 @@ class MessageForm extends React.Component {
                      style={{marginBottom: '0.7em'}}
                      label={<Button icon={'add'} />}
                      labelPosition="left"
+                     value={message}
                      placeholder="Write your message"
                      />
                      <Button.Group icon widths="2">
@@ -79,6 +80,7 @@ class MessageForm extends React.Component {
                          color="orange"
                          content="Add reply"
                          labelPosition="left"
+                         disabled={loading}
                          icon="edit"
                          />
                           <Button
