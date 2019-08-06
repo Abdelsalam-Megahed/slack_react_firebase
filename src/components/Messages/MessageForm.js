@@ -78,7 +78,7 @@ class MessageForm extends React.Component {
                          <Button
                          onClick={this.sendMessage}
                          color="orange"
-                         content="Add reply"
+                         content="Send a message"
                          labelPosition="left"
                          disabled={loading}
                          icon="edit"
