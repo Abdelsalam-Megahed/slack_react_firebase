@@ -1,6 +1,6 @@
 import React from "react";
 import firebase from "../../firebase";
-import md5 from "md5";
+// import md5 from "md5";
 import {
   Grid,
   Form,
@@ -77,9 +77,9 @@ class Register extends React.Component {
           createdUser.user
             .updateProfile({
               displayName: this.state.username,
-              photoURL: `http://gravatar.com/avatar/${md5(
-                createdUser.user.email
-              )}?d=identicon`
+              photoURL: 'https://gravatar.com/avatar/5d3e7ad647f6a3bf6ca8ba7edfac911a?d=identicon'
+
+
             })
             .then(() => {
               this.saveUser(createdUser).then(() => {
