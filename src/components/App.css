@@ -35,3 +35,7 @@ body,
 .progress__bar{
     margin: 0.3em 000 !important;
 }
+
+.menu{
+  padding-bottom: 2em;
+}
