@@ -4,6 +4,7 @@ import { Menu } from "semantic-ui-react";
 import UserPanel from "./UserPanel/UserPanel";
 import Channels from "./Channels";
 import DirectMessages from './DirectMessages';
+import starred from './Starred';
 
 class SidePanel extends React.Component {
   render() {
