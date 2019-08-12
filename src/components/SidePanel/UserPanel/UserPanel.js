@@ -34,9 +34,12 @@ class UserPanel extends React.Component {
             .then(() => console.log("Signed out"))
   }
 
-  render() {    
+  render() {   
+      const {primaryColor} = this.props;
+      const {user} = this.state;
+
     return (
-      <Grid style={{ background: "#4c3c4c" }}>
+      <Grid style={{ background: primaryColor }}>
         <Grid.Column>
           <Grid.Row style={{ padding: "1.2em", margin: 0 }}>
             {/* App Header */}
@@ -49,8 +52,8 @@ class UserPanel extends React.Component {
             <Dropdown
               trigger={
               <span>
-                <Image src={this.state.user.photoUrl} spaced="right" avatar/>
-                {this.state.user.displayName}
+                <Image src={user.photoUrl} spaced="right" avatar/>
+                {user.displayName}
                 </span>}
               options={this.dropdownOptions()}
             />
