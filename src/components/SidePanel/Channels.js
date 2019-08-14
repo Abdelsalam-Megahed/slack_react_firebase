@@ -2,15 +2,8 @@ import React from "react";
 import firebase from "../../firebase";
 import { connect } from "react-redux";
 import { setCurrentChannel, setPrivateChannel } from "../../actions";
-import {
-  Menu,
-  Icon,
-  Modal,
-  Form,
-  Input,
-  Button,
-  Label
-} from "semantic-ui-react";
+// prettier-ignore
+import { Menu, Icon, Modal, Form, Input, Button, Label } from "semantic-ui-react";
 
 class Channels extends React.Component {
   state = {
@@ -22,7 +15,7 @@ class Channels extends React.Component {
     channelDetails: "",
     channelsRef: firebase.database().ref("channels"),
     messagesRef: firebase.database().ref("messages"),
-    typingRef: firebase.database().ref('typing'),
+    typingRef: firebase.database().ref("typing"),
     notifications: [],
     modal: false,
     firstLoad: true
@@ -88,6 +81,9 @@ class Channels extends React.Component {
 
   removeListeners = () => {
     this.state.channelsRef.off();
+    this.state.channels.forEach(channel => {
+      this.state.messagesRef.child(channel.id).off();
+    });
   };
 
   setFirstChannel = () => {
