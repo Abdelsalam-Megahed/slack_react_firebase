@@ -9,7 +9,7 @@ import ProgressBar from "./ProgressBar";
 class MessageForm extends React.Component {
   state = {
     storageRef: firebase.storage().ref(),
-    typingRef: firebase.database().ref('typing'),
+    typingRef: firebase.database().ref("typing"),
     uploadTask: null,
     uploadState: "",
     percentUploaded: 0,
@@ -32,15 +32,19 @@ class MessageForm extends React.Component {
   handleKeyDown = () => {
     const { message, typingRef, channel, user } = this.state;
 
-    if(message){
-        typingRef
-          .child(channel.id)
-          .child(user.uid)
-          .set(user.displayName)
-    }else{
      
+    if (message) {
+      typingRef
+        .child(channel.id)
+        .child(user.uid)
+        .set(user.displayName);
+    } else {
+      typingRef
+        .child(channel.id)
+        .child(user.uid)
+        .remove();
     }
-  }
+  };
 
   createMessage = (fileUrl = null) => {
     const message = {
@@ -61,7 +65,7 @@ class MessageForm extends React.Component {
 
   sendMessage = () => {
     const { getMessagesRef } = this.props;
-    const { message, channel, typingRef, user } = this.state;
+    const { message, channel, user, typingRef } = this.state;
 
     if (message) {
       this.setState({ loading: true });
@@ -71,6 +75,10 @@ class MessageForm extends React.Component {
         .set(this.createMessage())
         .then(() => {
           this.setState({ loading: false, message: "", errors: [] });
+          typingRef
+            .child(channel.id)
+            .child(user.uid)
+            .remove();
         })
         .catch(err => {
           console.error(err);
@@ -81,14 +89,8 @@ class MessageForm extends React.Component {
         });
     } else {
       this.setState({
-        errors: this.state.errors.concat({ message: "Add a message" },
-        typingRef
-        .child(channel.id)
-        .child(user.uid)
-        .remove())
-      
+        errors: this.state.errors.concat({ message: "Add a message" })
       });
-    
     }
   };
 
@@ -190,7 +192,7 @@ class MessageForm extends React.Component {
             onClick={this.sendMessage}
             disabled={loading}
             color="orange"
-            content="Send a message"
+            content="Add Reply"
             labelPosition="left"
             icon="edit"
           />
